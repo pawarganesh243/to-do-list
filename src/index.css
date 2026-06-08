@@ -1,0 +1,459 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+  /* Typography */
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Colors */
+  --bg-color: #040d21;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.75);
+  --text-muted: rgba(255, 255, 255, 0.45);
+  
+  /* Glassmorphism Tokens */
+  --glass-bg: rgba(15, 30, 60, 0.4);
+  --glass-bg-hover: rgba(15, 30, 60, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-highlight: rgba(255, 255, 255, 0.35);
+  --glass-blur: blur(24px);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  /* Easing */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-sink: cubic-bezier(0.25, 1, 0.5, 1);
+  
+  /* Accents */
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #60a5fa;
+  --accent-danger: #ef4444;
+  --accent-danger-hover: #f87171;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow: hidden; /* Prevent scrolling on body, let internal content scroll */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Ambient Canvas - Static Gooey Metaballs */
+.goo-filter {
+  position: absolute;
+  visibility: hidden;
+}
+
+.ambient-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background-color: var(--bg-color);
+}
+
+.gooey-container {
+  width: 100%;
+  height: 100%;
+  filter: url('#goo');
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.goo-sphere {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+/* Base sizing and starting positions (Static) */
+.goo-sphere-1 {
+  width: 400px;
+  height: 400px;
+  top: 10%;
+  left: 20%;
+  background: #1e40af;
+}
+
+.goo-sphere-2 {
+  width: 300px;
+  height: 300px;
+  top: 60%;
+  left: 15%;
+  background: #3b82f6;
+}
+
+.goo-sphere-3 {
+  width: 250px;
+  height: 250px;
+  top: 15%;
+  left: 70%;
+  background: #0ea5e9;
+}
+
+.goo-sphere-4 {
+  width: 500px;
+  height: 500px;
+  top: 65%;
+  left: 65%;
+  background: #0284c7;
+}
+
+.goo-sphere-5 {
+  width: 350px;
+  height: 350px;
+  top: 40%;
+  left: 55%;
+  background: #2563eb;
+}
+
+/* App Container */
+.app-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* Main Workspace Card */
+.workspace-card {
+  width: 100%;
+  max-width: 640px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  
+  /* Glassmorphism */
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  padding: 2.5rem;
+  
+  transition: border-color 0.3s var(--ease-smooth);
+}
+
+.workspace-card:hover {
+  border-color: var(--glass-border-highlight);
+}
+
+.workspace-header {
+  margin-bottom: 2rem;
+}
+
+.workspace-title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  background: linear-gradient(to right, #ffffff, #93c5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.workspace-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* Composer Group (Input) */
+.composer-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.composer-input {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.3s var(--ease-smooth);
+  outline: none;
+}
+
+.composer-input::placeholder {
+  color: var(--text-muted);
+}
+
+.composer-input:focus {
+  background: rgba(15, 23, 42, 0.6);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.composer-trigger {
+  background: var(--accent-primary);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.composer-trigger:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.composer-trigger:active {
+  transform: translateY(1px) scale(0.95);
+}
+
+.composer-trigger svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.composer-trigger:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Registry Scroller (List Container) */
+.registry-scroller {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  
+  /* Custom Scrollbar for Glassmorphism */
+  scrollbar-width: thin;
+  scrollbar-color: var(--glass-border) transparent;
+}
+
+.registry-scroller::-webkit-scrollbar {
+  width: 6px;
+}
+
+.registry-scroller::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.registry-scroller::-webkit-scrollbar-thumb {
+  background-color: var(--glass-border);
+  border-radius: 10px;
+}
+
+.registry-empty {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.registry-empty svg {
+  width: 48px;
+  height: 48px;
+  opacity: 0.5;
+}
+
+/* Node Row (Task Item) */
+.node-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  transition: all 0.4s var(--ease-smooth);
+  animation: slideIn 0.4s var(--ease-spring) forwards;
+}
+
+.node-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--glass-border);
+  transform: translateX(4px);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Finished State */
+.node-row.is-finished {
+  opacity: 0.4;
+  background: transparent;
+  border-color: transparent;
+  transform: scale(0.98) translateY(2px);
+  transition: all 0.5s var(--ease-sink);
+}
+
+.node-row.is-finished:hover {
+  opacity: 0.6;
+}
+
+/* Custom Checkbox */
+.node-trigger-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-top: 2px; /* Alignment with text */
+}
+
+.node-trigger-hidden {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.node-trigger-visual {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px; /* Rounded square */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s var(--ease-spring);
+  background: rgba(255, 255, 255, 0.05); /* Soft glass interior */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.node-trigger-group:hover .node-trigger-visual {
+  border-color: var(--accent-primary-hover);
+  background: rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.node-trigger-hidden:checked ~ .node-trigger-visual {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transform: scale(1);
+}
+
+.node-trigger-icon {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #ffffff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.4s var(--ease-spring) 0.1s; /* Slight delay for the check mark drawing */
+}
+
+.node-trigger-hidden:checked ~ .node-trigger-visual .node-trigger-icon {
+  stroke-dashoffset: 0;
+}
+
+/* Node Label */
+.node-label {
+  flex: 1;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  word-break: break-word; /* Crucial for long strings */
+  transition: color 0.3s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.node-row.is-finished .node-label {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-muted);
+}
+
+/* Node Actions (Delete) */
+.node-action-delete {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+  opacity: 0;
+}
+
+.node-row:hover .node-action-delete {
+  opacity: 1;
+}
+
+.node-action-delete:hover {
+  color: var(--accent-danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.node-action-delete svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .app-container {
+    padding: 1rem;
+  }
+  
+  .workspace-card {
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+  
+  .workspace-title {
+    font-size: 2rem;
+  }
+  
+  .node-action-delete {
+    opacity: 1; /* Always show delete on mobile */
+  }
+}
