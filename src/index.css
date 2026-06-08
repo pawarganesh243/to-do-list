@@ -415,6 +415,35 @@ body {
 }
 
 /* Node Actions (Delete) */
+.clear-all-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--accent-danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: all 0.2s var(--ease-smooth);
+}
+
+.clear-all-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: translateY(-1px);
+}
+
+.clear-all-btn:active {
+  transform: translateY(1px);
+}
+
+.clear-all-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
 .node-action-delete {
   background: transparent;
   border: none;

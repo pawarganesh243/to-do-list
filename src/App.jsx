@@ -39,6 +39,12 @@ function App() {
     setTasks(prev => prev.filter(task => task.id !== id));
   }, []);
 
+  const handleClearAll = useCallback(() => {
+    if (window.confirm('Are you sure you want to clear all tasks?')) {
+      setTasks([]);
+    }
+  }, []);
+
   return (
     <div className="app-container">
       <AmbientCanvas />
@@ -47,6 +53,7 @@ function App() {
         onAddTask={handleAddTask}
         onToggleTask={handleToggleTask}
         onDeleteTask={handleDeleteTask}
+        onClearAll={handleClearAll}
       />
     </div>
   );
