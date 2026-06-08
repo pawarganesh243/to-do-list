@@ -81,7 +81,8 @@ body {
 .goo-sphere {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.8;
+  opacity: 0.9;
+  filter: blur(80px); /* Pure CSS blur creates a perfect Mesh Gradient */
 }
 
 /* Responsive Base Sizing and Positions (Static) */
@@ -143,7 +144,7 @@ body {
   display: flex;
   flex-direction: column;
   
-  /* Glassmorphism */
+  /* Glassmorphism fallback if inline styles are ever stripped */
   background: var(--glass-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
