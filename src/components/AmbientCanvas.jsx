@@ -18,7 +18,7 @@ const AmbientCanvas = () => {
         </defs>
       </svg>
       <div className="ambient-canvas">
-        <div className="gooey-container">
+        <div className="gooey-container" style={{ filter: "url('#goo')" }}>
           <div className="goo-sphere goo-sphere-1"></div>
           <div className="goo-sphere goo-sphere-2"></div>
           <div className="goo-sphere goo-sphere-3"></div>
